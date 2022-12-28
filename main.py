@@ -39,6 +39,7 @@ def get_timestamp() -> str:
 # ENV CONFIGURATION
 from dotenv import load_dotenv
 from os import environ as env
+import json
 class Configuration(Serializable,Settable):
 
     def __init__(self) -> None:
@@ -49,7 +50,8 @@ class Configuration(Serializable,Settable):
     def load(self):
         variables = self.getVariables()
         for variable in variables:
-            self[variable] = env.get(variable)
+            val = env.get(variable)
+            self[variable] = self.testVariable(val)
     
     # GET VARIABLES NAMES
     def getVariables(self):
@@ -60,3 +62,38 @@ class Configuration(Serializable,Settable):
             if line[0] != "#" and line.strip() != "":
                 variables.append(line.strip().split("=")[0])
         return variables
+
+    # VARIABLE IS BOOL
+    def isBool(self,variable):
+        if variable == "True" or variable == "False":
+            return bool(variable)
+        else:
+            return False
+
+    # VARIABLE IS NUMBER
+    def isNumber(self,variable):
+        try:
+            return float(variable)
+        except ValueError:
+            return False
+
+    # VARIABLE IS JSON
+    def isJson(self,variable):
+        try:
+            return json.loads(variable)
+        except ValueError as ex:
+            return False
+    
+    def testVariable(self,variable):
+        isBool = self.isBool(variable) 
+        isNumber = self.isNumber(variable)
+        isJson = self.isJson(variable)
+
+        if isBool != False:
+            return isBool
+        elif isNumber != False:
+            return isNumber
+        elif isJson != False:
+            return isJson
+        else:
+            return variable
