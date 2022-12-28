@@ -9,6 +9,7 @@ class Configuration(Serializable,Settable):
             load_dotenv()
             self.loaded = True
         self.variables = []
+        self.load()
 
     # LOAD CONFIGURATION
     def load(self):
