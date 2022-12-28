@@ -65,8 +65,10 @@ class Configuration(Serializable,Settable):
 
     # VARIABLE IS BOOL
     def isBool(self,variable):
-        if variable == "True" or variable == "False":
-            return bool(variable)
+        if variable == "True":
+            return True
+        elif variable == "False":
+            return False
         else:
             return False
 
