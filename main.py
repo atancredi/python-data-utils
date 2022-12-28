@@ -70,7 +70,7 @@ class Configuration(Serializable,Settable):
         elif variable == "False":
             return False
         else:
-            return False
+            return None
 
     # VARIABLE IS NUMBER
     def isNumber(self,variable):
@@ -91,7 +91,7 @@ class Configuration(Serializable,Settable):
         isNumber = self.isNumber(variable)
         isJson = self.isJson(variable)
 
-        if isBool != False:
+        if isBool != None:
             return isBool
         elif isNumber != False:
             return isNumber
