@@ -2,8 +2,8 @@
 Provides some useful properties for python classes
 
 ## Modules
- - Environment configuration
  - Data Properties
+ - Environment configuration
 
 ### Requirements
  - <code>python-dotenv</code>
