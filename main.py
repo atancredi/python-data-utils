@@ -40,24 +40,23 @@ def get_timestamp() -> str:
 from dotenv import load_dotenv
 from os import environ as env
 class Configuration(Serializable,Settable):
+
     def __init__(self) -> None:
-        self.loaded = False
-        if not self.loaded:
-            load_dotenv()
-            self.loaded = True
-        self.variables = []
+        load_dotenv()
         self.load()
 
     # LOAD CONFIGURATION
     def load(self):
-        self.getVariables()
-        for variable in self.variables:
+        variables = self.getVariables()
+        for variable in variables:
             self[variable] = env.get(variable)
     
     # GET VARIABLES NAMES
     def getVariables(self):
-        self.variables = []
+        variables = []
         with open(".env") as f:
             lines = f.readlines()
         for line in lines:
-            self.variables.append(line.strip().split("=")[0])
+            if line[0] != "#" and line.strip() != "":
+                variables.append(line.strip().split("=")[0])
+        return variables
