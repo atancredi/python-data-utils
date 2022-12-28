@@ -4,7 +4,10 @@ from main import Serializable,Settable
 
 class Configuration(Serializable,Settable):
     def __init__(self) -> None:
-        load_dotenv()
+        self.loaded = False
+        if not self.loaded:
+            load_dotenv()
+            self.loaded = True
         self.variables = []
 
     # LOAD CONFIGURATION
